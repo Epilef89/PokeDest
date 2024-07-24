@@ -16,6 +16,10 @@ final class HomeRouter: HomeRouterProtocol {
     }
     
     // MARK: Public func
+    func showDetail(pokemon: PokemonData) {
+        let detailViewController = DetailBuilder.build(pokemonData: pokemon)
+        viewController?.navigationController?.pushViewController(detailViewController, animated: true)
+    }
     
     // MARK: Private func
     

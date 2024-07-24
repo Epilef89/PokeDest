@@ -11,6 +11,7 @@ final class HomePresenter: HomePresenterProtocol {
     private var router: HomeRouterProtocol
     private var interactor: HomeInteractorProtocol
     private var pokemons: [PokemonData] = []
+    private var isLoadingMore: Bool = false
     
     // MARK: Init
     init(view: HomeViewProtocol, router: HomeRouterProtocol, interactor: HomeInteractorProtocol) {
@@ -24,10 +25,29 @@ final class HomePresenter: HomePresenterProtocol {
         interactor.getPokemonData()
     }
     
-    // MARK: Private func
-    private func getMorePokemons() {
+    func numberOfPokemons() -> Int {
+        return pokemons.count
+    }
+    
+    func pokemon(at: Int) -> PokemonData? {
+        return pokemons[safe: at]
+    }
+    
+    func loadMorePokemons() {
+        guard pokemons.count > .zero, !isLoadingMore  else { return }
+        isLoadingMore.toggle()
         interactor.getPokemonData()
     }
+    
+    func showDetail(at: Int) {
+        guard let pokemon = pokemons[safe: at] else {
+            view?.showError()
+            return
+        }
+        router.showDetail(pokemon: pokemon)
+    }
+    
+    // MARK: Private func
 
 }
 
@@ -35,6 +55,8 @@ final class HomePresenter: HomePresenterProtocol {
 extension HomePresenter: HomeInteractorOutProtocol {
     func setPokemons(pokemons: [PokemonData]) {
         self.pokemons.append(contentsOf: pokemons)
+        view?.reloadData()
+        isLoadingMore = false
     }
     
     func getPokemonsError() {
@@ -42,7 +64,7 @@ extension HomePresenter: HomeInteractorOutProtocol {
     }
     
     func withoutResults() {
-        print(pokemons.count)
+        view?.showError()
     }
     
 }
