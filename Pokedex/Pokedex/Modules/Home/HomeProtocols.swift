@@ -6,6 +6,7 @@
 
 protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol? { get set }
+    func showError()
 }
 
 protocol HomePresenterProtocol: AnyObject {
@@ -18,9 +19,12 @@ protocol HomeRouterProtocol: AnyObject {
 
 protocol HomeInteractorProtocol: AnyObject {
     var presenter: HomeInteractorOutProtocol? { get set }
+    func getPokemonData()
 }
 
 protocol HomeInteractorOutProtocol: AnyObject {
-    
+    func setPokemons(pokemons: [PokemonData])
+    func getPokemonsError()
+    func withoutResults()
 }
 

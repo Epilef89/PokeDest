@@ -26,5 +26,7 @@ final class HomeViewController: UIViewController {
 
 // MARK: HomeViewProtocol
 extension HomeViewController: HomeViewProtocol {
-    
+    func showError() {
+        print("error")
+    }
 }
