@@ -7,14 +7,20 @@
 protocol HomeViewProtocol: AnyObject {
     var presenter: HomePresenterProtocol? { get set }
     func showError()
+    func reloadData()
 }
 
 protocol HomePresenterProtocol: AnyObject {
     func viewDidLoad()
+    func numberOfPokemons() -> Int
+    func pokemon(at: Int) -> PokemonData?
+    func loadMorePokemons()
+    func showDetail(at: Int)
+    
 }
 
 protocol HomeRouterProtocol: AnyObject {
-
+    func showDetail(pokemon: PokemonData)
 }
 
 protocol HomeInteractorProtocol: AnyObject {
